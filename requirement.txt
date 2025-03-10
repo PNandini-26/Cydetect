@@ -1,0 +1,16 @@
+1.required installation for project--->
+Flask
+flask-cors
+google-generativeai ---> for chatbot
+requests
+mysql-connector-python
+joblib
+pandas
+numpy
+matplotlib
+ 
+2.make sure you already install mysql on your system
+
+3. for running the code after all installition ---> put this command on your terminal
+ 1.cd backend
+ 2. python app.py
