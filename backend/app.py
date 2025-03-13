@@ -17,11 +17,11 @@ app = Flask(__name__, template_folder=os.path.join(ROOT_DIR, '..', 'templates'),
 app.secret_key = 'your_secret_key'
 
 # Load the trained models, TF-IDF vectorizers, and label encoders
-sentiment_model = joblib.load(os.path.join(ROOT_DIR, '..', 'hack_model.pkl'))
-sentiment_tfidf = joblib.load(os.path.join(ROOT_DIR, '..', 'hack_tfidf_vectorizer.pkl'))
-cyberbullying_model = joblib.load(os.path.join(ROOT_DIR, '..', 'hack2_model.pkl'))
-cyberbullying_tfidf = joblib.load(os.path.join(ROOT_DIR, '..', 'hack2_tfidf_vectorizer.pkl'))
-label_encoder = joblib.load(os.path.join(ROOT_DIR, '..', 'label_encoder.pkl'))
+sentiment_model = joblib.load(os.path.join(ROOT_DIR,  'hack_model.pkl'))
+sentiment_tfidf = joblib.load(os.path.join(ROOT_DIR,  'hack_tfidf_vectorizer.pkl'))
+cyberbullying_model = joblib.load(os.path.join(ROOT_DIR,  'hack2_model.pkl'))
+cyberbullying_tfidf = joblib.load(os.path.join(ROOT_DIR,  'hack2_tfidf_vectorizer.pkl'))
+label_encoder = joblib.load(os.path.join(ROOT_DIR,  'label_encoder.pkl'))
 
 # MySQL Database Configuration
 DB_CONFIG = {
