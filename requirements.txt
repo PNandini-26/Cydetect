@@ -7,3 +7,5 @@ joblib
 pandas
 numpy
 matplotlib
+scikit-learn
+
