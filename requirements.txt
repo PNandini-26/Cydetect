@@ -1,11 +1,9 @@
 Flask
-flask-cors
-google-generativeai
-requests
-mysql-connector-python
 joblib
 pandas
 numpy
 matplotlib
+mysql-connector-python
 scikit-learn
-
+xgboost
+gunicorn
