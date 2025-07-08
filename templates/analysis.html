@@ -5,169 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyDetect - Analysis</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            animation: fadeIn 2s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .navbar {
-          background-color: #2c3e50; /* Darker shade */
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-        }
-        .navbar-brand img {
-            height: 30px;
-        }
-        .container {
-            max-width: 1200px;
-            margin-top: 50px;
-        }
-         /* Logout Button Style */
- .logout-btn {
-      background-color: red;
-      color: white;
-      border: none;
+   <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+      animation: fadeIn 1.5s ease-in-out;
+      margin-bottom: 60px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .navbar {
+      background-color: #1abc9c;
+      padding: 1rem 2rem;
+    }
+
+    .navbar .navbar-brand img {
+      height: 40px;
+    }
+
+    .nav-link {
+      color: rgb(20, 20, 20) !important;
+      margin-right: 10px;
       padding: 8px 15px;
-      text-decoration: none;
       border-radius: 5px;
-      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
-    .logout-btn:hover {
-      background-color: darkred;
+    .nav-link:hover {
+      background-color: #16a085;
     }
 
-.left-section {
-    width: 50%;
-    text-align: center;
-    animation: fadeInLeft 1s ease-in-out;
+    .nav-item .logout-btn {
+      background-color: #e74c3c;
+      color: rgb(10, 10, 10) !important;
+      border-radius: 5px;
+      padding: 6px 12px;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-item .logout-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .container {
+  margin-left: 220px;
+  padding: 100px 20px 40px; /* <-- increased top padding from 40px to 100px */
+  max-width: 800px;
+  flex: 1;
 }
 
-.left-section h1 {
-    font-size: 49px;
-    color: #333;
-    margin-bottom: 20px;
-}
 
-.left-section p {
-    font-size: 20px;
-    color: #666;
-    line-height: 1.5;
-}
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-.right-section {
-    width: 50%;
-    text-align: center;
-    position: relative;
-    animation: fadeInRight 1s ease-in-out;
-}
+    .btn-primary {
+      background-color: #007BFF;
+      border-color: #007BFF;
+    }
 
-.logo {
-    width: 150px;
-    height: auto;
-    margin-bottom: 20px;
-}
-        .container {
-            max-width: 600px;
-            margin-top: 50px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .btn-primary {
-            background-color: #007BFF;
-            border-color: #007BFF;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        .home-content {
-            margin-top: 20px;
-        }
-        .info-box {
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: slideIn 1s;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .info-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .info-box h2 {
-            margin-bottom: 15px;
-        }
-        .info-box ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .info-box ul li {
-            margin-bottom: 10px;
-        }
-        .footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .sidebar {
-            display: none;
-            position: fixed;
-            height: 100%;
-            width: 200px;
-            background-color: #003366;
-            padding-top: 20px;
-            z-index: 1;
-            left: 0;
-            overflow-x: hidden;
-            transition: 0.5s;
-        }
-        .sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-        }
-        .sidebar a:hover {
-            background-color: #575757;
-        }
-        .sidebar-icon {
-            cursor: pointer;
-            font-size: 24px;
-        }
-    </style>
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+
+    canvas {
+      margin-top: 30px;
+    }
+
+    .footer {
+      background-color: #16a085;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+     .graphic-box {
+     font-size: 28px;
+      font-weight: bold;
+      color: #080808;
+      
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+
         <a class="navbar-brand" href="/">
-            <img src="{{ url_for('static', filename='cydetect_logo.png') }}" alt="CyDetect Logo">
-        </a>
+ <div class="graphic">
+      <div class="graphic-box">CyDetect</div>
+    </div>      </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

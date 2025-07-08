@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyDetect - Cyberbullying Prediction System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #ecf0f1;
+      color: #2c3e50;
+    }
+    .navbar {
+      background-color: #ecf0f1;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar .logo h1 {
+      font-size: 24px;
+      color: #0c0c0c;
+    }
+    .nav-links a {
+      color: #0d0d0e;
+      margin: 0 10px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background-color: #1abc9c;
+      color: white;
+    }
+    .logout-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5rem 10%;
+      background: linear-gradient(to right, #1abc9c, #16a085);
+      color: white;
+    }
+    .hero .text {
+      max-width: 50%;
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .hero .graphic {
+      width: 40%;
+    }
+    .graphic-box {
+      width: 250px;
+      height: 250px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: #304b66;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      margin: auto;
+    }
+
+    /* New Highlights Section */
+    .highlight-box {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      flex: 1 1 250px;
+      max-width: 300px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+    .highlight-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    .highlight-box h4 {
+      margin-top: 1rem;
+      color: #16a085;
+    }
+    .highlight-box p {
+      font-size: 16px;
+      margin-top: 0.5rem;
+      color: #2c3e50;
+    }
+    .icon {
+      font-size: 36px;
+      color: #1abc9c;
+      animation: pop 0.8s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+    }
+    @keyframes pop {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .section {
+      padding: 4rem 10%;
+      display: flex;
+      justify-content: space-around;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .card {
+      background-color: #fff;
+      padding: 4rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      min-width: 280px;
+      max-width: 32%;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    .card h3 {
+      margin-bottom: 1rem;
+      color: #1abc9c;
+    }
+    .card p, .card ul li {
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .card ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    footer {
+      background-color: #1abc9c;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 2rem;
+    }
+    footer a {
+      color: #0f0f0f;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .chat-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .chat-modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      height: 80%;
+      position: relative;
+    }
+    .chat-modal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .close-chat {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">
+      <h1>CyDetect</h1>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/prediction">Prediction</a>
+      <a href="/analyze">Analysis</a>
+      <a href="/services">Services</a>
+      {% if 'user_id' in session %}
+      <a href="/logout" class="logout-btn">Logout</a>
+      {% else %}
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="text">
+      <h1>Welcome to CyDetect</h1>
+      <p>Detect cyberbullying and analyze sentiments in real-time with advanced AI-powered tools. Promote safer online communities through intelligent insights.</p>
+    </div>
+    <div class="graphic">
+      <div class="graphic-box">CyDetect</div>
+    </div>
+  </section>
+
+  <!-- Highlights Section -->
+  <section class="section" style="padding-top: 2rem;">
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; text-align: center;">
+      <div class="highlight-box">
+        <i class="fas fa-shield-alt icon"></i>
+        <h4>Secure Detection</h4>
+        <p>AI-backed cyberbullying detection to enhance user safety.</p>
+      </div>
+      <div class="highlight-box">
+        <i class="fas fa-brain icon"></i>
+        <h4>Smart Insights</h4>
+        <p>Analyze sentiments and trends with deep learning models.</p>
+      </div>
+      <div class="highlight-box">
+        <i class="fas fa-chart-line icon"></i>
+        <h4>Realtime Monitoring</h4>
+        <p>Stay updated with live sentiment feedback and analysis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Cards Section -->
+  <section class="section">
+    <div class="card">
+      <h3>Why Choose Us?</h3>
+      <p>Our AI models are trained to detect harmful behavior, identify threats, and evolve with changing trends in online conversations.</p>
+    </div>
+    <div class="card">
+      <h3>Features</h3>
+      <ul>
+        <li>Real-time predictions</li>
+        <li>AI-driven behavior analysis</li>
+        <li>Cross-platform compatibility</li>
+        <li>Custom alert triggers</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Benefits</h3>
+      <ul>
+        <li>Proactively prevent cyberbullying</li>
+        <li>Supportive online environments</li>
+        <li>Ease of use</li>
+        <li>Data-driven safety strategies</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Chat Button -->
+  <button class="chat-button" onclick="openChat()">
+    <i class="fas fa-comment"></i>
+  </button>
+
+  <!-- Chat Modal -->
+  <div id="chatModal" class="chat-modal">
+    <div class="chat-modal-content">
+      <span class="close-chat" onclick="closeChat()">&times;</span>
+      <iframe src="https://www.chatbase.co/chatbot-iframe/zhqbJSCh1B9OLjZGivI-C"></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 CyDetect. All Rights Reserved.</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a></p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    function openChat() {
+      document.getElementById("chatModal").style.display = "block";
+    }
+    function closeChat() {
+      document.getElementById("chatModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
