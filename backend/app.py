@@ -8,8 +8,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import logging
-import mysql.connector
-from mysql.connector import Error
+import sqlite3
 import os
 
 # Get the root directory of the project
@@ -38,42 +37,38 @@ cyberbullying_tfidf = joblib.load(os.path.join(ROOT_DIR,  'hack2_tfidf_vectorize
 label_encoder = joblib.load(os.path.join(ROOT_DIR,  'label_encoder.pkl'))
 
 
-# MySQL Config
-DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'nand',
-    'database': 'cydetect'
-}
+# SQLite Database
+DB_PATH = os.path.join(ROOT_DIR, "cydetect.db")
+
+def get_connection():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def init_db():
-    try:
-        conn = mysql.connector.connect(**DB_CONFIG)
-        cursor = conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(50) NOT NULL UNIQUE,
-                password VARCHAR(50) NOT NULL,
-                email VARCHAR(100) NOT NULL UNIQUE
-            )
-        ''')
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS history (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                user_id INT NOT NULL,
-                action VARCHAR(100) NOT NULL,
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id)
-            )
-        ''')
-        conn.commit()
-    except Error as e:
-        print(f"Error: {e}")
-    finally:
-        if conn.is_connected():
-            cursor.close()
-            conn.close()
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            action TEXT NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    conn.commit()
+    conn.close()
 
 init_db()
 
@@ -246,10 +241,16 @@ def login():
         username = request.form['username']
         password = request.form['password']
         try:
-            conn = mysql.connector.connect(**DB_CONFIG)
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute('SELECT id, password FROM users WHERE username = %s', (username,))
+            conn = get_connection()
+            cursor = conn.cursor()
+
+            cursor.execute(
+                'SELECT id, password FROM users WHERE username = ?',
+                (username,)
+            )
+
             user = cursor.fetchone()
+
             cursor.close()
             conn.close()
 
@@ -259,9 +260,12 @@ def login():
                 return redirect(url_for('home'))
             else:
                 flash('Invalid username or password')
-        except Error as e:
+
+        except Exception as e:
             flash(f'Error: {e}')
+
     return render_template('login.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -269,21 +273,29 @@ def register():
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
+
         try:
-            conn = mysql.connector.connect(**DB_CONFIG)
+            conn = get_connection()
             cursor = conn.cursor()
+
             cursor.execute(
-                'INSERT INTO users (username, password, email) VALUES (%s, %s, %s)',
+                'INSERT INTO users (username, password, email) VALUES (?, ?, ?)',
                 (username, password, email)
             )
+
             conn.commit()
+
             cursor.close()
             conn.close()
+
             flash('Registration successful! Please log in.')
             return redirect(url_for('login'))
-        except Error as e:
+
+        except Exception as e:
             flash(str(e))
+
     return render_template('register.html')
+
 
 @app.route('/logout')
 def logout():
@@ -291,22 +303,32 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('home'))
 
+
 @app.route('/history')
 def history():
     if 'user_id' not in session:
         flash('Please log in or register to access this feature.')
         return redirect(url_for('login'))
+
     try:
-        conn = mysql.connector.connect(**DB_CONFIG)
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT action, timestamp FROM history WHERE user_id = %s', (session['user_id'],))
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            'SELECT action, timestamp FROM history WHERE user_id = ?',
+            (session['user_id'],)
+        )
+
         history = cursor.fetchall()
+
         cursor.close()
         conn.close()
+
         return render_template('histroy.html', history=history)
-    except Error as e:
+
+    except Exception as e:
         flash(str(e))
         return render_template('histroy.html')
-
+        
 if __name__ == '__main__':
     app.run(debug=True)
