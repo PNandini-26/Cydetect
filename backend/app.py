@@ -23,12 +23,11 @@ app.secret_key = 'your_secret_key'
 
 
 # Load models and vectorizers
-sentiment_model = joblib.load(os.path.join(ROOT_DIR, '..', 'hack_model.pkl'))
-sentiment_tfidf = joblib.load(os.path.join(ROOT_DIR, '..', 'hack_tfidf_vectorizer.pkl'))
-cyberbullying_model = joblib.load(os.path.join(ROOT_DIR, '..', 'hack2_model.pkl'))
-cyberbullying_tfidf = joblib.load(os.path.join(ROOT_DIR, '..', 'hack2_tfidf_vectorizer.pkl'))
-label_encoder = joblib.load(os.path.join(ROOT_DIR, '..', 'label_encoder.pkl'))
-
+sentiment_model = joblib.load(os.path.join(ROOT_DIR, 'hack_model.pkl'))
+sentiment_tfidf = joblib.load(os.path.join(ROOT_DIR, 'hack_tfidf_vectorizer.pkl'))
+cyberbullying_model = joblib.load(os.path.join(ROOT_DIR, 'hack2_model.pkl'))
+cyberbullying_tfidf = joblib.load(os.path.join(ROOT_DIR, 'hack2_tfidf_vectorizer.pkl'))
+label_encoder = joblib.load(os.path.join(ROOT_DIR, 'label_encoder.pkl'))
 
 
 
