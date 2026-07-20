@@ -1,0 +1,20 @@
+[project]
+name = "cydetect"
+version = "1.0.0"
+description = "CyDetect Flask Application"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Flask",
+    "gunicorn",
+    "joblib",
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "mysql-connector-python",
+    "scikit-learn",
+    "xgboost"
+]
+
+[tool.vercel]
+entrypoint = "backend.app:app"
