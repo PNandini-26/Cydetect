@@ -1,2 +1,6 @@
+[project]
+name = "cydetect"
+version = "1.0.0"
+
 [tool.vercel]
 entrypoint = "backend.app:app"
